@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Accident Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="eyebrow">ROAD SAFETY • VIDEO SCREENING</div>
+      <h1>Smart Car Accident Detection</h1>
+      <p class="sub">Upload a road video for a basic motion-pattern check.</p>
+    </header>
+    <section class="panel">
+      <h2>Analyze a video</h2>
+      <form method="POST" enctype="multipart/form-data">
+        <label for="video">Choose video (MP4, MOV, AVI, MKV; max 100 MB)</label>
+        <input id="video" name="video" type="file" accept=".mp4,.mov,.avi,.mkv" required>
+        <button type="submit">Upload & Analyze</button>
+      </form>
+      {% if error %}<div class="error">{{ error }}</div>{% endif %}
+      {% if filename %}<p class="filename">File processed: <strong>{{ filename }}</strong></p>{% endif %}
+    </section>
+    {% if result %}
+    <section class="panel result">
+      <div class="eyebrow">ANALYSIS RESULT</div>
+      <h2>{{ result.status }}</h2>
+      <p>{{ result.details }}</p>
+      <div class="stats">
+        <div><span>Frames checked</span><strong>{{ result.frames_checked }}</strong></div>
+        <div><span>Video duration</span><strong>{{ result.duration }} sec</strong></div>
+      </div>
+      <p class="method">Method: {{ result.method }}</p>
+    </section>
+    {% endif %}
+    <aside class="notice">
+      <strong>Prototype limitation:</strong> This version does not use a trained accident-detection AI model, GPS, SMS, or emergency calling. Motion changes can produce false alarms or miss real accidents. Do not use it for real-world safety decisions.
+    </aside>
+    <footer>Student project prototype • Local testing only</footer>
+  </main>
+</body>
+</html>
